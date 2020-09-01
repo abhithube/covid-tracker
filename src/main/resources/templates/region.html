@@ -1,0 +1,134 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Tracker Nineteen</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:insert="fragments/navbar.html :: navbar"></div>
+<div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+        <div>
+            <h1 id="title" th:text="${region}"></h1>
+        </div>
+        <div id="region-select">
+            <select>
+                <option value="">Select a region</option>
+                <option th:each="region : ${regionList}" th:value="${region.getName()}"
+                        th:text="${region.getName()}"></option>
+            </select>
+            <button id="region-button" class="btn btn-outline-success" type="button">Go!</button>
+        </div>
+    </div>
+    <div class="jumbotron py-sm-4">
+        <div class="row">
+            <span class="h2 col-sm" th:text="${totalCases}"></span>
+            <span class="h2 col-sm" th:text="${totalDeaths}"></span>
+        </div>
+        <div class="row">
+            <span class="lead col-sm">Total reported cases</span>
+            <span class="lead col-sm">Total reported deaths</span>
+        </div>
+    </div>
+    <div>
+        <h5 class="py-auto mr-sm-1">View</h5>
+        <button id="chart-view" class="btn btn-success" disabled>Chart</button>
+        <button id="table-view" class="btn btn-success">Table</button>
+        <span class="font-weight-lighter float-right">Last Updated: <span th:text="${lastModified}"></span></span>
+    </div>
+    <div id="charts">
+        <canvas id="casesChart" class="mt-sm-4"></canvas>
+        <canvas id="deathsChart" class="mt-sm-4"></canvas>
+    </div>
+    <div id="table" style="display: none">
+        <div style="float: right" id="table-filter">
+            Month:
+            <select>
+                <option value="">All</option>
+                <option th:each="month : ${monthsInt}" th:value="${month}"
+                        th:text="${monthsStr.get(monthsInt.indexOf(month))}"></option>
+            </select>
+        </div>
+        <div>
+            <table id="table-region" class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Cases</th>
+                    <th>Daily Cases</th>
+                    <th>Deaths</th>
+                    <th>Daily Deaths</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="stats : ${statsList}">
+                    <td><a th:text="${stats.getDate()}" th:href="@{'/dates/' + ${stats.getDate()}}"></a></td>
+                    <td th:text="${stats.getCases()}"></td>
+                    <td th:text="${'+' + stats.getDailyCases()}"></td>
+                    <td th:text="${stats.getDeaths()}"></td>
+                    <td th:text="${'+' + stats.getDailyDeaths()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+        let casesChart = new Chart(document.getElementById('casesChart'), {
+            type: 'line',
+            data: {
+                labels: [[${dates}]],
+                datasets: [
+                    {
+                        label: 'Cases',
+                        data: [[${cases}]],
+                        backgroundColor: 'rgb(40, 167, 69)',
+                        borderColor: 'rgb(40, 167, 69)',
+                        fill: false,
+                        borderWidth: 2
+                    },
+                ]
+            }
+        });
+
+        let deathsChart = new Chart(document.getElementById('deathsChart'), {
+            type: 'line',
+            data: {
+                labels: [[${dates}]],
+                datasets: [
+                    {
+                        label: 'Deaths',
+                        data: [[${deaths}]],
+                        backgroundColor: 'rgb(0,0,0)',
+                        borderColor: 'rgb(0,0,0)',
+                        fill: false,
+                        borderWidth: 2,
+                    },
+                ]
+            }
+        });
+    </script>
+</div>
+<footer class="mb-sm-4"></footer>
+
+<script th:src="@{/js/region.js}" type="text/javascript"></script>
+<script th:src="@{/js/view.js}" type="text/javascript"></script>
+</body>
+
+</html>

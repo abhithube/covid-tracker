@@ -1,0 +1,75 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Tracker Nineteen</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:insert="fragments/navbar.html :: navbar"></div>
+<div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+        <div>
+            <h1 id="title" th:text="${date}"></h1>
+        </div>
+        <div>
+            <label for="date-input">Select a date:</label>
+            <input id="date-input" type="date" th:value="${date}" min="2020-01-21" th:max="${latest}">
+            <button id="date-button" class="btn btn-outline-success" type="button">Go!</button>
+        </div>
+    </div>
+    <div class="jumbotron py-sm-4">
+        <div class="row">
+            <span class="h2 col-sm" th:text="${totalCases}"></span>
+            <span class="h2 col-sm" th:text="${totalDeaths}"></span>
+        </div>
+        <div class="row">
+            <span class="lead col-sm">Total reported cases</span>
+            <span class="lead col-sm">Total reported deaths</span>
+        </div>
+    </div>
+    <span class="font-weight-lighter">Last Updated: <span th:text="${lastModified}"></span></span>
+    <div id="table" style="display: block">
+        <table id="table-date" class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>State</th>
+                <th>Cases</th>
+                <th>Daily Cases</th>
+                <th>Deaths</th>
+                <th>Daily Deaths</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="stats : ${statsList}">
+                <td><a th:text="${stats.getRegion().getName()}"
+                       th:href="@{'/states/' + ${stats.getRegion().getName().toLowerCase().replace(' ', '-')}}"></a></td>
+                <td th:text="${stats.getCases()}"></td>
+                <td th:text="${'+' + stats.getDailyCases()}"></td>
+                <td th:text="${stats.getDeaths()}"></td>
+                <td th:text="${'+' + stats.getDailyDeaths()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<footer class="mb-sm-4"></footer>
+
+<script th:src="@{/js/date.js}" type="text/javascript"></script>
+</body>
+
+</html>

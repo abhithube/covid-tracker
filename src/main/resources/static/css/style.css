@@ -1,0 +1,30 @@
+body {
+    background-color: #fffff8;
+}
+
+#title {
+    font-size: 3rem;
+    display: inline-block;
+    margin: 1rem auto;
+}
+
+h5 {
+    display: inline;
+}
+
+#date {
+    size: 1rem;
+}
+
+.jumbotron {
+    background-color: #c8ffc8 !important;
+    margin-bottom: 1rem;
+}
+
+tbody:hover {
+    background-color: #c8ffc8;
+}
+
+.clickable {
+    cursor: pointer;
+}
