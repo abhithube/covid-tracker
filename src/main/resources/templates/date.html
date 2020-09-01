@@ -57,11 +57,11 @@
             <tbody>
             <tr th:each="stats : ${statsList}">
                 <td><a th:text="${stats.getRegion().getName()}"
-                       th:href="@{'/states/' + ${stats.getRegion().getName().toLowerCase().replace(' ', '-')}}"></a></td>
-                <td th:text="${stats.getCases()}"></td>
-                <td th:text="${'+' + stats.getDailyCases()}"></td>
-                <td th:text="${stats.getDeaths()}"></td>
-                <td th:text="${'+' + stats.getDailyDeaths()}"></td>
+                       th:href="@{'/region/' + ${stats.getRegion().getName().toLowerCase().replace(' ', '-')}}"></a></td>
+                <td><span th:text="${stats.getCases()}"></span></td>
+                <td><span th:if="${stats.getDailyCases() >= 0}">+</span><span th:text="${stats.getDailyCases()}"></span></td>
+                <td><span th:text="${stats.getDeaths()}"></span></td>
+                <td><span th:if="${stats.getDailyDeaths() >= 0}">+</span><span th:text="${stats.getDailyDeaths()}"></span></td>
             </tr>
             </tbody>
         </table>

@@ -11,7 +11,7 @@
     <groupId>io.abhithube</groupId>
     <artifactId>covid-tracker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>coronavirus-tracker</name>
+    <name>covid-tracker</name>
     <description>A COVID-19 tracking application</description>
 
     <properties>

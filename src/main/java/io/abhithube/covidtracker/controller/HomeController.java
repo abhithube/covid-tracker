@@ -64,7 +64,10 @@ public class HomeController {
 
     @GetMapping("/date/{date}")
     public String getDataByDate(@PathVariable String date, Model model) {
-        if (date.equals("latest")) date = DataService.latest.toString();
+        if (date.equals("latest") || LocalDate.parse(date).isAfter(DataService.latest))
+            date = DataService.latest.toString();
+        if (LocalDate.parse(date).isBefore(DataService.earliest)) date = DataService.earliest.toString();
+
         List<DailyStats> statsList = dailyStatsService.getAllStats(LocalDate.parse(date));
         statsList.remove(0);
         long totalCases = statsList.stream().mapToLong(DailyStats::getCases).sum();

@@ -31,6 +31,7 @@ public class DataService {
 
     public static Date lastModified = new Date();
     public static LocalDate latest;
+    public static final LocalDate earliest = LocalDate.parse("2020-01-21");
 
     public static final Map<String, DailyStats> regionPrevStats = new HashMap<>();
 
