@@ -15,4 +15,12 @@ The "All" datasets contain the full case and death history. It is used to popula
 The backend makes use of the Spring scheduler, and uses a cron job to update the database at several points every day. When the scheduler is triggered, the fetch service will make a GET request to the "Live" datasets above, retrieve the raw CSV data, parse it, and persist the relevant bits to the MySQL database. The controller layer is responsible for getting the requested stats from the service layer and formatting it for the model layer. Speaking of, the frontend consists of the Thymeleaf template engine. The DataTables and Chart.js libraries are used to create the tables and graphs. There's some jQuery here to handle sorting/filtering the tables and configuring the graphs.
 
 ## Screenshots
-Coming soon...
+
+#### Search by Date:
+![search-by-date](docs/images/search-by-date.png)
+
+#### Search by Region (Table):
+![search-by-date](docs/images/search-by-region-table.png)
+
+#### Search by Region (Graph):
+![search-by-date](docs/images/search-by-region-graph.png)
