@@ -9,7 +9,7 @@ The application pulls from [this](https://github.com/nytimes/covid-19-data) NY T
 - U.S. Live Data: https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us.csv
 - State Live Data: https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv
 
-The "All" datasets contain the full case and death history. It is used to populate the database when the application is first started up. The "Live" datasets contain the most recent stats. It is used to update the database every day.
+The "All" datasets contain the full case and death history, and are used to populate the database when the application is first started up. The "Live" datasets contain the most recent stats, which are used to update the database every day.
 
 ## How It Works
 The backend makes use of the Spring scheduler, and uses a cron job to update the database at several points every day. When the scheduler is triggered, the fetch service will make a GET request to the "Live" datasets above, retrieve the raw CSV data, parse it, and persist the relevant bits to the MySQL database. The controller layer is responsible for getting the requested stats from the service layer and formatting it for the model layer. Speaking of, the frontend consists of the Thymeleaf template engine. The DataTables and Chart.js libraries are used to create the tables and graphs. There's some jQuery here to handle sorting/filtering the tables and configuring the graphs.
